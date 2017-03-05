@@ -1,0 +1,8 @@
+{
+  "name": "Rekon",
+  "description": "Associated images with hashtags",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::893483352847:role/Rekon_lambda_function",
+  "environment": {}
+}
