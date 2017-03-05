@@ -1,0 +1,14 @@
+{
+  "name": "rekonnaisance",
+  "version": "1.0.0",
+  "description": "take pics and invoke rekognition api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tony Tran",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.22.0"
+  }
+}
