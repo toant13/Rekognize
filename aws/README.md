@@ -1,6 +1,7 @@
-#How to Deploy
+# How to Deploy
 
-###Run 
+### Run 
+
 `Terraform plan -var <accessKey> -var <secretKey`
 
 `Terraform apply -var <accessKey> -var <secretKey`
