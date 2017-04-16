@@ -1,0 +1,16 @@
+#!/bin/bash
+
+current_file_name=`cat aws/src/terraform/variables.tf | grep lambda_v | cut -d '/' -f7 |sed -e 's/"$//'`
+current_version=`echo $current_file_name | sed -e s/[^0-9]//g`
+echo current version: $current_version and file name: $current_file_name
+
+new_version=`expr $current_version + 1`
+new_file_name=lambda_v$new_version.zip
+echo new version is: $new_version and file name: $new_file_name
+
+sed -i -e "s/$current_file_name/$new_file_name/g" aws/src/terraform/variables.tf
+rm aws/src/terraform/variables.tf-e
+
+rm phase1/functions/rekonnaissance/lambda_*
+zip -r phase1/functions/rekonnaissance/$new_file_name phase1/functions/rekonnaissance/
+

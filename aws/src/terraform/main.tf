@@ -33,28 +33,16 @@ resource "aws_elasticache_cluster" "FrequencyRedis" {
   parameter_group_name = "default.redis3.2"
 }
 
-//resource "aws_lambda_function" "parse_lambda" {
-//  filename = "${var.lambdaJarS3Bucket}"
-//  function_name = "parse_lambda"
-//  description = "Grabs images, labels them, and stores information in redis"
-//  role = "${aws_iam_role.parse_lambda_role.arn}"
-//  handler = "index.handler"
-//  runtime = "nodejs4.3"
-//  timeout = 240
-//  memory_size = 128
-//  environment = {
-  //    variables = {
-  //      lead_auth_s3_bucket = "${aws_s3_bucket.LeadAuthS3Bucket.bucket}"
-  //      email_templates_s3_bucket = "${var.EmailTemplatesS3Bucket}"
-  //      environment = "${var.environment}"
-  //      recipients = "${var.recipients}"
-  //      approveUrl = "phony"
-  //      denyUrl = "phony"
-  //      apiKey = "${aws_api_gateway_api_key.LeadAuthAPIKey.value}"
-  //      zodiacServiceURL = "${var.ZodiacServiceURL}"
-  //    }
-  //  }
-//  depends_on = [
-//    "aws_iam_role.parse_Lambda"]
-//}
+resource "aws_lambda_function" "parse_lambda" {
+  filename = "${var.parse_lambda_filename}"
+  function_name = "parse_lambda"
+  description = "Grabs images, labels them, and stores information in redis"
+  role = "${aws_iam_role.parse_lambda_role.arn}"
+  handler = "index.handler"
+  runtime = "nodejs4.3"
+  timeout = 240
+  memory_size = 128
+  depends_on = [
+    "aws_iam_role.parse_lambda_role"]
+}
 
