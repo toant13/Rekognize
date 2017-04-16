@@ -61,7 +61,8 @@ resource "aws_cloudwatch_event_target" "trigger_rekonnaissance_lambda_every_hour
 
 resource "aws_lambda_permission" "cloudwatch_rekonnaissance_lambda_permission" {
   statement_id = "cloudwatch_rekonnaissance_lambda_permission"
-  action = "lambda:InvokeFunction"
+//  action = "lambda:InvokeFunction"
+  action = "lambda:DisableInvokeFunction"
   function_name = "${aws_lambda_function.rekonnaissance_lambda.function_name}"
   principal = "events.amazonaws.com"
   source_arn = "${aws_cloudwatch_event_rule.rekonnaissance_lambda_every_hour.arn}"
