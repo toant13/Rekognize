@@ -1,9 +1,8 @@
-"use strict";
+const AWS = require('aws-sdk');
 
-const AWS = require("aws-sdk");
-const _ = require('lodash');
+exports.handle = function (e, ctx, cb) {
+  const elasticache = new AWS.ElastiCache({ apiVersion: '2015-02-02' });
 
-exports.handle = function(e, ctx, cb) {
-  console.log('processing event: %j', e)
-  cb(null, { hello: 'world' })
+  console.log('processing event: %s', elasticache);
+  cb(null, { hello: 'world' });
 }
