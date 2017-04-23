@@ -9,5 +9,6 @@
   "author": "Tony Tran",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.45.0"
   }
 }
