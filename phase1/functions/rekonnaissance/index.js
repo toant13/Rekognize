@@ -20,7 +20,7 @@ function getRedisClient(correlationId) {
   });
 }
 
-function setRedisCallbacks(correlationId, redisClient){
+function setRedisCallbacks(correlationId, redisClient) {
   redisClient.on('ready', () => {
     console.log(`[CID=${correlationId}] Redis is ready`);
   });
@@ -34,7 +34,7 @@ exports.handler = function (e, ctx, cb) {
   const correlationId = uuidV4();
 
   const redisClient = getRedisClient(correlationId);
-  setRedisCallbacks(redisClient);
+  setRedisCallbacks(correlationId, redisClient);
 
   console.log(`[CID=${correlationId}] Done!`);
   cb(null, { hello: 'world' });
