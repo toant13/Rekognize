@@ -49,6 +49,10 @@ resource "aws_lambda_function" "rekonnaissance_lambda" {
       ELASTICACHE_HOST = "${var.elasticache_host}"
     }
   }
+  vpc_config {
+    subnet_ids = "${var.vpc_subnet_ids}"
+    security_group_ids = "${var.vpc_security_group}"
+  }
   depends_on = ["aws_elasticache_cluster.frequency_redis"]
 }
 

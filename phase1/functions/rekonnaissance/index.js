@@ -11,7 +11,7 @@ function getRedisClient(correlationId) {
   }
 
   if (lambdaEnv === 'LOCAL') {
-    return redis.createClient({ host: 'localhost', port: 6379} );
+    return redis.createClient({ host: 'localhost', port: 6379 });
   }
 
   const elasticacheHost = (process.env.ELASTICACHE_HOST || 'localhost');
@@ -22,12 +22,11 @@ function getRedisClient(correlationId) {
 }
 
 function setRedisCallbacks(correlationId, redisClient) {
-  redisClient.auth('password', (err, reply) => {
-    console.log(`[CID=${correlationId}] Reply ${reply}`);
-  });
-
   redisClient.on('ready', () => {
     console.log(`[CID=${correlationId}] Redis is ready`);
+    redisClient.quit();
+
+    console.log(`[CID=${correlationId}] we good, so lets disconnect`);
   });
 
   redisClient.on('error', () => {
@@ -42,6 +41,6 @@ exports.handler = function (e, ctx, cb) {
   setRedisCallbacks(correlationId, redisClient);
 
   console.log(`[CID=${correlationId}] Done!`);
-  cb(null, {hello: 'world'});
+  cb(null, { hello: 'world' });
 };
 
