@@ -44,6 +44,12 @@ resource "aws_lambda_function" "rekonnaissance_lambda" {
   memory_size = 128
   depends_on = [
     "aws_iam_role.parse_lambda_role"]
+  environment = {
+    variables = {
+      ELASTICACHE_HOST = "${var.elasticache_host}"
+    }
+  }
+  depends_on = ["aws_elasticache_cluster.frequency_redis"]
 }
 
 resource "aws_cloudwatch_event_rule" "rekonnaissance_lambda_every_hour" {

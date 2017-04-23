@@ -11,16 +11,21 @@ function getRedisClient(correlationId) {
   }
 
   if (lambdaEnv === 'LOCAL') {
-    return redis.createClient({ host: 'localhost', port: 6379 });
+    return redis.createClient({ host: 'localhost', port: 6379} );
   }
 
+  const elasticacheHost = (process.env.ELASTICACHE_HOST || 'localhost');
   return redis.createClient({
-    host: 'frequency-cluster.u2yttb.0001.use1.cache.amazonaws.com',
+    host: elasticacheHost,
     port: 6379,
   });
 }
 
 function setRedisCallbacks(correlationId, redisClient) {
+  redisClient.auth('password', (err, reply) => {
+    console.log(`[CID=${correlationId}] Reply ${reply}`);
+  });
+
   redisClient.on('ready', () => {
     console.log(`[CID=${correlationId}] Redis is ready`);
   });
@@ -37,6 +42,6 @@ exports.handler = function (e, ctx, cb) {
   setRedisCallbacks(correlationId, redisClient);
 
   console.log(`[CID=${correlationId}] Done!`);
-  cb(null, { hello: 'world' });
+  cb(null, {hello: 'world'});
 };
 
