@@ -12,5 +12,5 @@ sed -i -e "s/$current_file_name/$new_file_name/g" aws/src/terraform/variables.tf
 rm aws/src/terraform/variables.tf-e
 
 rm phase1/functions/rekonnaissance/lambda_*
-zip -r phase1/functions/rekonnaissance/$new_file_name phase1/functions/rekonnaissance/
+cd phase1/functions/rekonnaissance/ && zip -r $new_file_name ./
 
