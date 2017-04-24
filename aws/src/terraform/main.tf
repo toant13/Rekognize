@@ -33,6 +33,28 @@ resource "aws_elasticache_cluster" "frequency_redis" {
   parameter_group_name = "default.redis3.2"
 }
 
+// todo: s3 bucket for images to rekognize
+//resource "aws_s3_bucket" "LeadAuthS3Bucket" {
+//  bucket = "${var.LeadAuthS3Bucket}"
+//  acl = "private"
+//
+//  force_destroy = false
+//
+//  versioning {
+//    enabled = true
+//  }
+//
+//  logging {
+//    target_bucket = "${var.AccessLogsS3Bucket}"
+//    target_prefix = "logs/${var.LeadAuthS3Bucket}/"
+//  }
+//
+//  tags {
+//    Name = "lead-auth-s3-bucket"
+//    Environment = "${var.environment}"
+//  }
+//}
+
 resource "aws_lambda_function" "rekonnaissance_lambda" {
   filename = "${var.parse_lambda_filename}"
   function_name = "rekonnaissance_lambda"
@@ -40,7 +62,7 @@ resource "aws_lambda_function" "rekonnaissance_lambda" {
   role = "${aws_iam_role.parse_lambda_role.arn}"
   handler = "index.handler"
   runtime = "nodejs6.10"
-  timeout = 240
+  timeout = 80
   memory_size = 128
   depends_on = [
     "aws_iam_role.parse_lambda_role"]
@@ -49,10 +71,11 @@ resource "aws_lambda_function" "rekonnaissance_lambda" {
       ELASTICACHE_HOST = "${var.elasticache_host}"
     }
   }
-  vpc_config {
-    subnet_ids = "${var.vpc_subnet_ids}"
-    security_group_ids = "${var.vpc_security_group}"
-  }
+// commenting this out because I need the lamba to have internet access and that requires a NAT gateway which is not on the aws free tier
+//  vpc_config {
+//    subnet_ids = "${var.vpc_subnet_ids}"
+//    security_group_ids = "${var.vpc_security_group}"
+//  }
   depends_on = ["aws_elasticache_cluster.frequency_redis"]
 }
 

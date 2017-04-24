@@ -1,5 +1,5 @@
 variable "parse_lambda_filename" {
-  default = "../../../phase1/functions/rekonnaissance/lambda_v24.zip"
+  default = "../../../phase1/functions/rekonnaissance/lambda_v26.zip"
 }
 
 variable "elasticache_host" {
